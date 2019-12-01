@@ -46,6 +46,13 @@ void QuitProgram(int n)
 	exit(n);
 }
 
+void show_message(std::string message)
+{
+	clear();
+	mvprintw(row/2, (col - message.size())/2, message.c_str());
+	getch();
+}
+
 void Init()
 {
 	map.clear();
@@ -62,9 +69,7 @@ void Init()
 	while(!file.eof())
 	{
 		file >> std::noskipws >> buff;
-		if(buff == EOF)
-			break;
-		else if(buff == '\n')
+		if(buff == '\n')
 		{
 			pos_y++;
 			pos_x = 0;
@@ -77,28 +82,23 @@ void Init()
 			p.angle = -PI/2;
 			pos_x++;
 			s_buff += '.';
-		} else
+		} else if(buff == '#' || buff == '.' || buff == 'A' || buff == 'B' || buff == 'C')
 		{
 			pos_x++;
 			s_buff += buff;
-		}
+		} else
+			break;
 	}
 
 	file.close();
-}
-
-void show_message(std::string message)
-{
-	clear();
-	mvprintw(row/2, (col - message.size())/2, message.c_str());
-	getch();
+	getmaxyx(stdscr,row,col);
+	show_message("Aperte [Enter] para continuar...");
 }
 
 void *update(void *null)
 {
 	getmaxyx(stdscr,row,col);
 	double late_pos_x, late_pos_y, angle_gap = p.fov/col;
-	show_message("Aperte [Enter] para continuar...");
 	while(!(p.keymap & QUIT))
 	{
 		if(p.keymap & RSET)
@@ -243,6 +243,7 @@ int main(int argc, char *argv[])
 	initscr();
 	noecho();
 	start_color();
+	curs_set(0);
 
 	init_color(21, 750, 750, 750);
 	init_color(22, 500, 500, 500);
