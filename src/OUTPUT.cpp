@@ -21,6 +21,9 @@
 
 #include "infos.hpp"
 
+#define INTA 1
+#define INTB 2
+
 char map_message[1024];
 
 constexpr double PI = 3.14159;
@@ -143,12 +146,12 @@ void *update(void *null)
 					p.pos_x = late_pos_x;
 			} else if(map[p.pos_y][p.pos_x] == 'A')
 			{
-				show_message("Numero 1");
+				show_message("Numero 1: " + itos(INTA));
 				p.pos_x = late_pos_x;
 				p.pos_y = late_pos_y;
 			} else if(map[p.pos_y][p.pos_x] == 'B')
 			{
-				show_message("Numero 2");
+				show_message("Numero 2: " + itos(INTB));
 				p.pos_x = late_pos_x;
 				p.pos_y = late_pos_y;
 			} else if(map[p.pos_y][p.pos_x] == 'C')
