@@ -24,8 +24,6 @@
 #define INTA 7
 #define INTB 2
 
-int t = 0;
-
 char map_message[1024];
 
 constexpr double PI = 3.14159;
@@ -145,18 +143,16 @@ void *update(void *null)
 					p.pos_y = late_pos_y;
 				if(map[late_pos_y][p.pos_x] == '#')
 					p.pos_x = late_pos_x;
-			} else if(map[late_pos_y][p.pos_x] == 'A')
+			} else if(map[p.pos_y][p.pos_x] == 'A')
 			{
-				show_message("Numero 1: " + itos(INTA) + itos(t));
+				show_message("Digito #1: " + itos(INTA);
 				p.pos_x = late_pos_x;
 				p.pos_y = late_pos_y;
-				t++;
 			} else if(map[p.pos_y][p.pos_x] == 'B')
 			{
-				show_message("Numero 2: " + itos(INTB) + itos(t));
+				show_message("Digito #2: " + itos(INTB));
 				p.pos_x = late_pos_x;
 				p.pos_y = late_pos_y;
-				t++;
 			} else if(map[p.pos_y][p.pos_x] == 'C')
 			{
 				show_message(map_message);
