@@ -2,8 +2,8 @@
 
 constexpr int BACKLOG = 1;
 
-constexpr int SCREEN_WIDTH = 640;
-constexpr int SCREEN_HEIGHT = 480;
+constexpr int SCREEN_WIDTH = 1366;
+constexpr int SCREEN_HEIGHT = 768;
 
 constexpr uint8_t MV_F = 0b00000001;
 constexpr uint8_t MV_B = 0b00000010;

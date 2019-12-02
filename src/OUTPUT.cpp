@@ -21,8 +21,10 @@
 
 #include "infos.hpp"
 
-#define INTA 1
+#define INTA 7
 #define INTB 2
+
+int t = 0;
 
 char map_message[1024];
 
@@ -148,16 +150,19 @@ void *update(void *null)
 				show_message("Numero 1: " + itos(INTA));
 				p.pos_x = late_pos_x;
 				p.pos_y = late_pos_y;
+				t++;
 			} else if(map[p.pos_y][p.pos_x] == 'B')
 			{
 				show_message("Numero 2: " + itos(INTB));
 				p.pos_x = late_pos_x;
 				p.pos_y = late_pos_y;
+				t++;
 			} else if(map[p.pos_y][p.pos_x] == 'C')
 			{
 				show_message(map_message);
 				p.pos_x = late_pos_x;
 				p.pos_y = late_pos_y;
+				t++;
 			}
 		}
 
