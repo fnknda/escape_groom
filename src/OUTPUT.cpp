@@ -139,11 +139,11 @@ void *update(void *null)
 
 			if(map[p.pos_y][p.pos_x] == '#')
 			{
-				if((int)p.pos_x != (int)late_pos_x)
-				p.pos_x = late_pos_x;
-				if((int)p.pos_y != (int)late_pos_y)
+				if(map[p.pos_y][late_pos_x] == '#')
 					p.pos_y = late_pos_y;
-			} else if(map[p.pos_y][p.pos_x] == 'A')
+				if(map[late_pos_y][p.pos_x] == '#')
+					p.pos_x = late_pos_x;
+			} else if(map[late_pos_y][p.pos_x] == 'A')
 			{
 				show_message("Numero 1: " + itos(INTA));
 				p.pos_x = late_pos_x;
