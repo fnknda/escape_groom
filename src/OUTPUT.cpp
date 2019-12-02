@@ -139,7 +139,7 @@ void *update(void *null)
 
 			if(map[p.pos_y][p.pos_x] == '#')
 			{
-				double diff_x = abs(p.pos_x - ((double)(int)p.pos_x + 0.5)), diff_y = abs(p.pos_x - ((double)(int)p.pos_y + 0.5));
+				double diff_x = abs(p.pos_x - ((int)p.pos_x + 0.5)), diff_y = abs(p.pos_x - ((int)p.pos_y + 0.5));
 				if(diff_x < diff_y)
 					p.pos_y = late_pos_y;
 				else
