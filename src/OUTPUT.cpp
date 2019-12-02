@@ -52,7 +52,7 @@ void QuitProgram(int n)
 void show_message(std::string message)
 {
 	clear();
-	mvprintw(row/2, (col - message.size())/2, message.c_str());
+	mvprintw(0, 0, message.c_str());
 	getch();
 }
 
