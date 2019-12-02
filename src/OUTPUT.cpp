@@ -136,8 +136,11 @@ void *update(void *null)
 
 			if(map[p.pos_y][p.pos_x] == '#')
 			{
-				p.pos_x = late_pos_x;
-				p.pos_y = late_pos_y;
+				double diff_x = p.pos_x - (double)(int)p.pos_x, diff_y = p.pos_x - (double)(int)p.pos_y;
+				if(diff_x < diff_y)
+					p.pos_y = late_pos_y;
+				else
+					p.pos_x = late_pos_x;
 			} else if(map[p.pos_y][p.pos_x] == 'A')
 			{
 				show_message("Numero 1");
