@@ -95,7 +95,7 @@ void Init()
 
 	file.close();
 	getmaxyx(stdscr,row,col);
-	show_message("Aperte [Enter] para continuar...");
+	show_message("A essencia do COMPETEC trata-se do trabalho em equipe, ela esta presente em todas as partes do projeto.\nOs tutores das sessoes do competec sao separados em duas funcoes, a primeira seria o(a) mestre de sala, aquele(a) que explica o assunto da aula, enquanto o outro seria o(a) assistente, aquele(a) que tira as duvidas dos alunos e ajuda o mestre da sala em seu dever.\nOs alunos tambem sao incentivados ao trabalho em equipe, atraves da dinamica de dojo de programacao, sendo alocados nas funcoes de piloto(a) e co-piloto(a), um digita o codigo, enquanto o outro ajuda a guiar o caminho para resolver o problema.\nNeste enigma, voces deverao fazer o mesmo, um devera ser os olhos, enquanto o outro sera as pernas, juntos, deverao caminhar rumo a vitoria.\nAperte [Enter] para continuar...");
 }
 
 void *update(void *null)
