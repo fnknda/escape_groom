@@ -169,7 +169,7 @@ void *update(void *null)
 		for(int x = 0; x < col; x++)
 		{
 			double crr_x = p.pos_x, crr_y = p.pos_y, distance = 0;
-			while(distance < 7 || map[crr_y][crr_x] != '#' && map[crr_y][crr_x] != 'A' && map[crr_y][crr_x] != 'B' && map[crr_y][crr_x] != 'C')
+			while(distance < 7 && map[crr_y][crr_x] != '#' && map[crr_y][crr_x] != 'A' && map[crr_y][crr_x] != 'B' && map[crr_y][crr_x] != 'C')
 			{
 				distance += 0.1d;
 				crr_x += 0.1d * cos(current_drawing_angle);
