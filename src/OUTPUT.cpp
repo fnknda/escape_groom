@@ -147,13 +147,13 @@ void *update(void *null)
 					p.pos_x = late_pos_x;
 			} else if(map[late_pos_y][p.pos_x] == 'A')
 			{
-				show_message("Numero 1: " + itos(INTA));
+				show_message("Numero 1: " + itos(INTA) + itos(t));
 				p.pos_x = late_pos_x;
 				p.pos_y = late_pos_y;
 				t++;
 			} else if(map[p.pos_y][p.pos_x] == 'B')
 			{
-				show_message("Numero 2: " + itos(INTB));
+				show_message("Numero 2: " + itos(INTB) + itos(t));
 				p.pos_x = late_pos_x;
 				p.pos_y = late_pos_y;
 				t++;
@@ -162,7 +162,6 @@ void *update(void *null)
 				show_message(map_message);
 				p.pos_x = late_pos_x;
 				p.pos_y = late_pos_y;
-				t++;
 			}
 		}
 
