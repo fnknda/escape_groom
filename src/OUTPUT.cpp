@@ -5,13 +5,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include <sys/types.h>	// Nothing yet?
-#include <sys/socket.h>	// socket() and bind()
-#include <netdb.h>	// addrinfo and related stuff
-#include <unistd.h>	// gethostname()
+#include <sys/socket.h>
 
-#include <arpa/inet.h>	  // inet_ntop and pton
-#include <netinet/in.h>	 // Nothing yet?
+#include <arpa/inet.h>
 
 #include <ncurses.h>
 #include <pthread.h>
@@ -145,7 +141,7 @@ void *update(void *null)
 					p.pos_x = late_pos_x;
 			} else if(map[p.pos_y][p.pos_x] == 'A')
 			{
-				show_message("Digito #1: " + itos(INTA);
+				show_message("Digito #1: " + itos(INTA));
 				p.pos_x = late_pos_x;
 				p.pos_y = late_pos_y;
 			} else if(map[p.pos_y][p.pos_x] == 'B')
@@ -216,34 +212,32 @@ int main(int argc, char *argv[])
 {
 	Init();
 
-	std::string my_port = "42000";
+	int my_port = 42000;
 
 	if(argc == 2)
 	{
-		my_port = argv[1];
+		my_port = atoi(argv[1]);
 	}
 
-	int status, sock, c_sock;
-	socklen_t addr_size;
-	struct sockaddr_storage c_addr;
-	struct addrinfo hint, *res;
+	int sock, c_sock;
+	sockaddr_in hint, c_hint;
 
-	memset(&hint, 0, sizeof(hint));
-	hint.ai_family = AF_UNSPEC;
-	hint.ai_socktype = SOCK_STREAM;
-	hint.ai_flags = AI_PASSIVE;
+	hint.sin_addr.s_addr = INADDR_ANY;
+	hint.sin_family = AF_INET;
+	hint.sin_port = htons(my_port);
 
-	if((status = getaddrinfo(NULL, my_port.c_str(), &hint, &res)) != 0) QuitProgram(1);
-	if((sock = socket(res->ai_family, res->ai_socktype, res->ai_protocol)) == -1) QuitProgram(2);
-	if((status = bind(sock, res->ai_addr, res->ai_addrlen)) == -1) QuitProgram(3);
-	if((status = listen(sock, BACKLOG)) == -1) QuitProgram(4);
+	if((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) QuitProgram(1);
+	{
+		int val = 1;
+		if(setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val)) == -1) QuitProgram(2);
+	}
+	if(bind(sock, reinterpret_cast<sockaddr *>(&hint), sizeof(hint)) == -1) QuitProgram(3);
+	if(listen(sock, BACKLOG) == -1) QuitProgram(4);
 
-	char ipstr[INET_ADDRSTRLEN];
-	inet_ntop(AF_INET, res->ai_addr, ipstr, INET_ADDRSTRLEN);
-	std::cout << "Listening for connections on address: " << ipstr << ":" << my_port << std::endl;
+	std::cout << "Listening for connections on address: 0.0.0.0:" << my_port << std::endl;
 
-	addr_size = sizeof(c_addr);
-	c_sock = accept(sock, (struct sockaddr *)&c_addr, &addr_size);
+	socklen_t addr_size = sizeof(c_hint);
+	c_sock = accept(sock, reinterpret_cast<sockaddr *>(&c_hint), &addr_size);
 
 	initscr();
 	noecho();
@@ -284,9 +278,6 @@ int main(int argc, char *argv[])
 	pthread_join(update_thread, nullptr);
 
 	endwin();
-
-	shutdown(sock, 2);
-	freeaddrinfo(res);
 
 	pthread_exit(nullptr);
 }

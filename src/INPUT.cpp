@@ -1,12 +1,8 @@
 #include <iostream>
 #include <cstring>
 
-#include <sys/types.h>	  // Nothing yet?
-#include <sys/socket.h>	 // Nothing yet?
-#include <netdb.h>	  // addrinfo and related stuff
-
-#include <arpa/inet.h>	  // inet_ntop and pton
-#include <netinet/in.h>	 // Nothing yet?
+#include <sys/socket.h>
+#include <arpa/inet.h>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -133,32 +129,26 @@ void Close()
 
 int main(int argc, char const *argv[])
 {
-	const char *ip = "localhost";
-	const char *port = "42000";
+	const char *ip = "127.0.0.1";
+	int port = 42000;
 	if(argc > 1)
 	{
 		ip = argv[1];
 		if(argc > 2)
 		{
-			port = argv[2];
+			port = atoi(argv[2]);
 		}
 	}
 
-	int status, sock;
-	struct addrinfo hint, *res;
+	int sock;
 
-	memset(&hint, 0, sizeof(hint));
-	hint.ai_family = AF_UNSPEC;
-	hint.ai_socktype = SOCK_STREAM;
+	sockaddr_in hint;
+	hint.sin_addr.s_addr = inet_addr(ip);
+	hint.sin_family = AF_INET;
+	hint.sin_port = htons(port);
 
-	if((status = getaddrinfo(ip, port, &hint, &res)) != 0) QuitProgram(2);
-	if((sock = socket(res->ai_family, res->ai_socktype, res->ai_protocol)) == -1) QuitProgram(3);
-	if((status = connect(sock, res->ai_addr, res->ai_addrlen)) == -1) QuitProgram(4);
-
-	char ipstr[INET6_ADDRSTRLEN];
-	struct sockaddr_storage *tempaddr;
-	getpeername(sock, (struct sockaddr*)tempaddr, (socklen_t *)sizeof(*tempaddr));
-	inet_ntop(AF_INET, tempaddr, ipstr, INET6_ADDRSTRLEN);
+	if((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) QuitProgram(3);
+	if(connect(sock, reinterpret_cast<sockaddr *>(&hint), sizeof(hint)) == -1) QuitProgram(4);
 
 	Init();
 
@@ -267,7 +257,5 @@ int main(int argc, char const *argv[])
 
 	Close();
 
-	shutdown(sock, 2);
-	freeaddrinfo(res);
 	return 0;
 }
